@@ -17,14 +17,14 @@
 
 - debug:
     var: job_templates_inventory
-    
+
 - name: include inventory role
   include_role:
     name: inventory
   when: job_templates_inventory | type_debug == 'dict'
 
 - name: include project role
-  include_role:ß
+  include_role:
     name: project
   when: job_templates_project | type_debug == 'dict'
 
