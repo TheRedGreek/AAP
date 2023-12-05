@@ -2,7 +2,6 @@
   set_fact:
     job_templates_inventory: "{{ (job_templates | extract_dict_from_list('inventory')) }}"
     job_templates_project:   "{{ (job_templates | extract_dict_from_list('project')) }}"
-    job_templates_inventory_name: "{{ (job_templates_inventory | extract_dict_from_list('inventory')).get('name') }}"
   when: job_templates is defined
 
 - name: fail if job_templates_inventory or job_templates_project is a list
