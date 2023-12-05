@@ -15,14 +15,11 @@
     job_templates_project:   "{{ (job_templates | extract_list_from_dict('project')) }}"
   when: job_templates is defined
 
-- set_fact:
-    inventories: "{{ inventories + job_templates_inventory }}"
-  vars:
-    inventories: "{{ inventories | default([]) }}"
-
 - name: include inventory role
   include_role:
     name: inventory
+  vars:
+    inventories: "{{ inventories + job_templates_inventory }}"
 
 - debug:
     var: inventories
