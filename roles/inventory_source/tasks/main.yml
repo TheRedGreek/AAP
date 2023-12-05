@@ -18,7 +18,7 @@
     new_name: "{{ item.new_name | default(omit) }}"
     notification_templates_started: "{{ item.notification_templates_started | default(omit) }}"
     notification_templates_success: "{{ item.notification_templates_success | default(omit) }}"
-    notification_templates_error: "{{ item.notification_templates_error | default(omit) }}"
+    notification_templates_error:   "{{ item.notification_templates_error | default(omit) }}"
     overwrite: "{{ item.overwrite | default(omit) }}"
     organization: "{{ item.organization | default(omit) }}"
     overwrite_vars: "{{ item.overwrite_vars | default(omit) }}"

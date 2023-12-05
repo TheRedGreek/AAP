@@ -2,6 +2,7 @@
   set_fact:
     job_templates_inventory: "{{ (job_templates | extract_dict_from_list('inventory')) }}"
     job_templates_project:   "{{ (job_templates | extract_dict_from_list('project')) }}"
+    job_templates_inventory_name: "{{ (job_templates_inventory | extract_dict_from_list('inventory')).get('name') }}"
   when: job_templates is defined
 
 - name: fail if job_templates_inventory or job_templates_project is a list
@@ -15,12 +16,11 @@
     - "{{ job_templates_inventory | default('pass')}}"
     - "{{ job_templates_project | default('pass')}}"
 
-- debug:
-    var: job_templates_inventory
-
 - name: include inventory role
   include_role:
     name: inventory
+  vars:
+    inventories: "{{ inventories + [job_templates_inventory] }}"
   when: job_templates_inventory | type_debug == 'dict'
 
 - name: include project role
@@ -64,7 +64,7 @@
     forks: "{{ item.forks | default(omit) }}"
     host_config_key: "{{ item.host_config_key | default(omit) }}"
     instance_groups: "{{ item.instance_group | default(omit) }}"
-    inventory: "{{ item.inventory | default(omit) }}"
+    inventory: "{{ item.inventory.name | default(omit) }}"
     job_slice_count: "{{ item.job_slice_count | default(omit) }}"
     job_tags: "{{ item.job_tags | default(omit) }}"
     job_type: "{{ item.job_type | default(omit) }}"
@@ -86,6 +86,4 @@
     verbosity: "{{ item.verbosity | default(omit) }}"
     webhook_service: "{{ item.webhook_service | default(omit) }}"
     webhook_credential: "{{ item.webhook_credential | default(omit) }}"
-  vars:
-    template_inventory: 
   with_items: "{{ job_templates | default([]) }}"
