@@ -1,7 +1,7 @@
 - hosts: localhost
   gather_facts: no
   collections:
-    - redhat.controller
+    - ansible.controller
   tasks:
     - name: create job template and inventory
       include_role:
