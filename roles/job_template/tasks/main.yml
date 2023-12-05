@@ -18,12 +18,12 @@
 - name: include inventory role
   include_role:
     name: inventory
-  when: job_templates_inventory is iterable
+  when: job_templates_inventory | type_debug == 'list'
 
 - name: include project role
   include_role:
     name: project
-  when: job_templates_project is iterable
+  when: job_templates_project | type_debug == 'list'
 
 - name: Create Job Template
   ansible.controller.job_template: 
