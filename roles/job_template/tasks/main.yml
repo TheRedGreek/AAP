@@ -1,7 +1,7 @@
 - name: set job template facts
   set_fact:
-    job_template_inventory: "{{ (job_templates | extract_dict_from_list('inventory')) }}"
-    job_template_project:   "{{ (job_templates | extract_dict_from_list('project')) }}"
+    job_templates_inventory: "{{ (job_templates | extract_dict_from_list('inventory')) }}"
+    job_templates_project:   "{{ (job_templates | extract_dict_from_list('project')) }}"
   when: job_templates is defined
 
 - name: fail if job_templates_inventory or job_templates_project is a list
@@ -17,13 +17,14 @@
 
 - debug:
     var: job_templates_inventory
+    
 - name: include inventory role
   include_role:
     name: inventory
   when: job_templates_inventory | type_debug == 'dict'
 
 - name: include project role
-  include_role:
+  include_role:ß
     name: project
   when: job_templates_project | type_debug == 'dict'
 
