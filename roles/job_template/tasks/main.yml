@@ -18,12 +18,12 @@
 - name: include inventory role
   include_role:
     name: inventory
-  when: job_templates_inventory | type_debug == 'list'
+  when: job_templates_inventory | type_debug == 'dict'
 
 - name: include project role
   include_role:
     name: project
-  when: job_templates_project | type_debug == 'list'
+  when: job_templates_project | type_debug == 'dict'
 
 - name: Create Job Template
   ansible.controller.job_template: 
@@ -31,7 +31,7 @@
     controller_username: "{{ item.controller_username | default(omit) }}"
     controller_password: "{{ item.controller_password | default(omit) }}"
     controller_host: "{{ item.controller_host | default(omit) }}"
-    validate_certs: "{{ item.validate_certs   | default(omit) }}"
+    validate_certs:  "{{ item.validate_certs   | default(omit) }}"
     controller_config_file: "{{ item.controller_config_file | default(omit) }}"
     allow_simultaneous: "{{ item.allow_simultaneous | default(omit) }}"
     ask_credentials_on_launch: "{{ item.ask_credentials_on_launch | default(omit) }}"

@@ -1,4 +1,0 @@
-- name: Check if list
-  fail:
-    msg: "{{ item }} is a list, but it should be a dictionary."
-  when: item is list
