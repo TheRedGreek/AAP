@@ -15,7 +15,7 @@
   when: job_templates_project is iterable
 
 - name: Create Job Template
-  job_template: 
+  redhat.controller.job_template: 
     controller_oauth_token: "{{ item.controller_oauth_token | default(omit) }}"
     controller_username: "{{ item.controller_username | default(omit) }}"
     controller_password: "{{ item.controller_password | default(omit) }}"
