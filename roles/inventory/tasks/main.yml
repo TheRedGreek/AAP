@@ -1,5 +1,5 @@
 - name: Create Inventory
-  inventory: 
+  ansible.controller.inventory: 
     controller_oauth_token: "{{ item.controller_oauth_token | default(omit) }}"
     controller_username: "{{ item.controller_username | default(omit) }}"
     controller_password: "{{ item.controller_password | default(omit) }}"
