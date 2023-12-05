@@ -5,8 +5,6 @@
       include_role:
         name: job_template
       vars:
-        inventories:
-        - name: 'test'
         job_templates:
           - name: "Automated VM Template Creation"
             description: "Automated Creation of VMs that will be used as templates"

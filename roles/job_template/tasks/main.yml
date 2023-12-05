@@ -17,6 +17,8 @@
 
 - set_fact:
     inventories: "{{ inventories + job_templates_inventory }}"
+  vars:
+    inventories: "{{ inventories | default([]) }}"
 
 - name: include inventory role
   include_role:
