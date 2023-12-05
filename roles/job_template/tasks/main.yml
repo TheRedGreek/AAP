@@ -20,8 +20,9 @@
     name: inventory
   vars:
     inventories: "{{ inventories + [job_templates_inventory] }}"
-  when: job_templates_inventory | type_debug == 'dict'
 
+- debug:
+    var: inventories
 - name: include project role
   include_role:
     name: project
