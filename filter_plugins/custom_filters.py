@@ -23,10 +23,6 @@ class FilterModule(object):
         if not isinstance(list_of_dicts, list):
             raise ValueError("Input must be a list of dictionaries")
 
-        extracted_items = []
         for dict_item in list_of_dicts:
-            if not isinstance(dict_item, dict):
-                continue  # or raise an error
             if key in dict_item:
-                extracted_items.extend(dict_item[key])
-        return extracted_items
+                return dict_item[key]
