@@ -19,7 +19,7 @@
   include_role:
     name: inventory
   vars:
-    inventories: "{{ inventories + [job_templates_inventory] }}"
+    inventories: "{{ inventories + job_templates_inventory }}"
 
 - debug:
     var: inventories
