@@ -10,7 +10,7 @@
       - "{{ item }} is a list, but it should be a dictionary."
       - "Please check the documentation for the correct format."
       - "Job templates can only support one inventory and one project."
-  when: item is list
+  when: item | type_debug == 'list'
   with_items:
     - "{{ job_templates_inventory | default('pass')}}"
     - "{{ job_templates_project | default('pass')}}"
@@ -31,7 +31,7 @@
     controller_username: "{{ item.controller_username | default(omit) }}"
     controller_password: "{{ item.controller_password | default(omit) }}"
     controller_host: "{{ item.controller_host | default(omit) }}"
-    validate_certs: "{{ item.validate_certs | default(omit) }}"
+    validate_certs: "{{ item.validate_certs   | default(omit) }}"
     controller_config_file: "{{ item.controller_config_file | default(omit) }}"
     allow_simultaneous: "{{ item.allow_simultaneous | default(omit) }}"
     ask_credentials_on_launch: "{{ item.ask_credentials_on_launch | default(omit) }}"
