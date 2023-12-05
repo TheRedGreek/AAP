@@ -10,8 +10,7 @@
             description: "Automated Creation of VMs that will be used as templates"
             job_type: "run"
             inventory:
-              - name: "test"
-              - name: "test2"
+               name: "test"
             project: "Automated VM Template Creation"
             become_enabled: "true"
             playbook: "configure_satellite.yml"

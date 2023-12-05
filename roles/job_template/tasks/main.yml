@@ -1,8 +1,19 @@
 - name: set job template facts
   set_fact:
-    job_template_inventory: "{{ job_templates | extract_list_from_dict('inventory') }}"
-    job_template_project:   "{{ job_templates | extract_list_from_dict('project') }}"
+    job_template_inventory: "{{ (job_templates | extract_dict_from_list('inventory')) | default(null) }}"
+    job_template_project:   "{{ (job_templates | extract_dict_from_list('project'))  | default(null) }}"
   when: job_templates is defined
+
+- name: fail if job_templates_inventory or job_templates_project is a list
+  fail:
+    msg:
+      - "{{ item }} is a list, but it should be a dictionary."
+      - "Please check the documentation for the correct format."
+      - "Job templates can only support one inventory and one project."
+  when: item is list
+  with_items:
+    - "{{ job_templates_inventory }}"
+    - "{{ job_templates_project }}"
 
 - name: include inventory role
   include_role:

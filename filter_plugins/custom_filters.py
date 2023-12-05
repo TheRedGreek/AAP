@@ -2,10 +2,10 @@
 class FilterModule(object):
     def filters(self):
         return {
-            'extract_list_from_dict': self.extract_list_from_dict,
+            'extract_dict_from_list': self.extract_dict_from_list,
         }
 
-    def extract_list_from_dict(self, list_of_dicts, key):
+    def extract_dict_from_list(self, list_of_dicts, key):
         """
         Extracts a list of items corresponding to a given key from each dictionary in a list.
         If the input is a string, it returns the string as is.
