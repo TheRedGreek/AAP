@@ -1,0 +1,16 @@
+- name: Inventory Source Update
+  ansible.controller.inventory_source_update: 
+    controller_oauth_token: "{{ item.controller_oauth_token | default(omit) }}"
+    controller_username: "{{ item.controller_username | default(omit) }}"
+    controller_password: "{{ item.controller_password | default(omit) }}"
+    controller_host: "{{ item.controller_host | default(omit) }}"
+    validate_certs: "{{ item.validate_certs | default(omit) }}"
+    controller_config_file: "{{ item.controller_config_file | default(omit) }}"
+    interval: "{{ item.interval | default(omit) }}"
+    inventory: "{{ item.inventory | default(omit) }}"
+    name: "{{ item.name }}"
+    organization: "{{ item.organization }}"
+    request_timeout: "{{ item.request_timeout | default(omit) }}"
+    timeout: "{{ item.timeout | default(omit) }}"
+    wait: "{{ item.wait | default(omit) }}"
+  with_items: "{{ inventory_source_updates | default([]) }}"

@@ -1,0 +1,17 @@
+- name: create credential input source
+  ansible.controller.credential_input_source:
+    controller_oauth_token: "{{ item.controller_oauth_token | default(omit) }}"
+    controller_username: "{{ item.controller_username | default(omit) }}"
+    controller_password: "{{ item.controller_password | default(omit) }}"
+    controller_host: "{{ item.controller_host | default(omit) }}"
+    validate_certs: "{{ item.validate_certs | default(omit) }}"
+    controller_config_file: "{{ item.controller_config_file | default(omit) }}"
+    description: "{{ item.description | default(omit) }}"
+    input_field_name: "{{ item.input_field_name }}"
+    metadata: "{{ item.metadata | default(omit) }}"
+    request_timeout: "{{ item.request_timeout | default(omit) }}"
+    sourec_credentail: "{{ item.sourec_credentail | default(omit) }}"
+    state: "{{ item.state | default('present') }}"
+    target_credentail: "{{ item.target_credentail }}"
+  with_items: "{{ credential_input_sources | default([]) }}"
+
