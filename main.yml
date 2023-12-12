@@ -1,37 +1,19 @@
 - hosts: localhost
-  gather_facts: no
   tasks:
-  - name: Use CyberArk Lookup credential as password source
-    ansible.controller.credential_input_source:
-      input_field_name: password
-      target_credential: root
-      source_credential: cyberark_lookup
-      metadata:
-        object_query: "Safe=MY_SAFE;Object=awxuser"
-        object_query_format: "Exact"
-      state: present
+  # lookup environment variables
+  - name: lookup environment variables
+    set_fact:
+      awx_controller: "{{ lookup('env', 'CONTROLLER_HOST') | default(None) }}"
 
+- hosts: "{{ awx_controller }}"
+  tasks:
+  - debug: var=awx_controller
+  - name: create credential
+    include_role:
+        name: credential
+  - name: create project
+    include_role:
+        name: project
   - name: create job template and inventory
     include_role:
-        name: job_template
-    vars:
-        job_templates:
-        - name: "Automated VM Template Creation"
-          description: "Automated Creation of VMs that will be used as templates"
-          job_type: "run"
-          inventory:
-              name: "test"
-          project: 
-              name: "Automated VM Template Creation"
-          credentials:
-          - name: "root"
-            credential_type: "Machine"
-            inputs:
-                username: "root"
-          become_enabled: "true"
-          playbook: "configure_satellite.yml"
-          execution_environment: ""
-          limit: ""
-          organization: ""
-
-      
+        name: job_template  

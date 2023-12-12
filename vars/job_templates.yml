@@ -1,17 +1,3 @@
-projects:
-- name: "Automated VM Template Creation"
-  description: "Automated Creation of VMs that will be used to as templates"
-  scm_type: "git"
-  scm_url: ""
-  scm_branch: "main"
-  scm_clean: "true"
-  organization: ""
-  allow_override: "true"
-  credential: ""
-  scm_update_on_launch: "true"
-  scm_update_cache_timeout: "10"
-  scm_delete_on_update: "false"
-
 job_templates:
 - name: "Automated VM Template Creation"
   description: "Automated Creation of VMs that will be used to as templates"
