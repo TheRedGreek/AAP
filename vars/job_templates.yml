@@ -2,7 +2,7 @@ job_templates:
 - name: "Automated VM Template Creation"
   description: "Automated Creation of VMs that will be used to as templates"
   job_type: "run"
-  inventory: ""
+  inventory: 
   - name: "test"
   - name: "test2"
   project: "Automated VM Template Creation"
