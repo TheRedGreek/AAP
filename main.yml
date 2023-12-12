@@ -1,19 +1,13 @@
 - hosts: localhost
   tasks:
-  # lookup environment variables
-  - name: lookup environment variables
-    set_fact:
-      awx_controller: "{{ lookup('env', 'CONTROLLER_HOST') | default(None) }}"
-
-- hosts: "{{ awx_controller }}"
-  tasks:
-  - debug: var=awx_controller
   - name: create credential
     include_role:
-        name: credential
+        name: credentials
+    run_once: true
   - name: create project
     include_role:
-        name: project
+        name: projects
+    run_once: true
   - name: create job template and inventory
     include_role:
         name: job_template  
