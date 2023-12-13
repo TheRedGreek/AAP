@@ -4,17 +4,25 @@
     old_credentials: "{{ credentials | default([]) }}"
 
 - set_fact:
-    inventories: "{{ item | extract_dict('inventory') }}"
-    projects:    "{{ item | extract_dict('project') }}"
+    inventories: "{{ item | extract_dict('inventory')   }}"
+    projects:    "{{ item | extract_dict('project')     }}"
     credentials: "{{ item | extract_list('credentials') }}"
 
-- name: include inventory role
-  include_role:
-    name: inventories
+- name: Faile if inventory, project or credentail has more than on entry
+  fail:
+    msg: "Only one inventory, project or credential can be specified for a job template"
+  when: 
+  - inventories | length > 1 or 
+    credentials | length > 1 or
+    projects    | length > 1
 
 - name: include project role
   include_role:
     name: projects
+
+- name: include inventory role
+  include_role:
+    name: inventories
 
 - name: include credential role
   include_role:
@@ -28,7 +36,7 @@
 - name: Create Job Template
   ansible.controller.job_template: 
     controller_oauth_token: "{{ item.controller_oauth_token | default(omit) }}"
-    controller_username: "{{ item.controller_username | default(omit) }}"
+    controller_username:    "{{ item.controller_username | default(omit) }}"
     controller_password: "{{ item.controller_password | default(omit) }}"
     controller_host: "{{ item.controller_host  | default(omit) }}"
     validate_certs:  "{{ item.validate_certs   | default(omit) }}"

@@ -1,5 +1,5 @@
 ---
-projects:
+projects: 
 - name: "Automated VM Template Creation"
   description: "Automated Creation of VMs that will be used to as templates"
   scm_type: "git"

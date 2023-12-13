@@ -1,0 +1,36 @@
+- set_fact:
+    credentials: "{{ item | extract_dict('credential') }}"
+
+- include_role:
+    name: credentials
+
+- set_fact:
+    credentials:  "{{ old_credentials | default([]) }}"
+
+- name: Add project
+  ansible.controller.project:
+    controller_oauth_token: "{{ item.controller_oauth_token | default(omit) }}"
+    controller_username: "{{ item.controller_username | default(omit) }}"
+    controller_password: "{{ item.controller_password | default(omit) }}"
+    controller_host: "{{ item.controller_host | default(omit) }}"
+    validate_certs: "{{ item.validate_certs | default(omit) }}"
+    controller_config_file: "{{ item.controller_config_file | default(omit) }}"
+    allow_overrite: "{{ item.allow_overrite | default(omit) }}"
+    copy_from: "{{ item.copy_from | default(omit) }}"
+    credential: "{{ item.credential.name | default(omit) }}"
+    default_environment: "{{ item.default_environment | default(omit) }}"
+    interval: "{{ item.interval | default(omit) }}"
+    new_name: "{{ item.new_name | default(omit) }}"
+    update_project: "{{ item.update_project | default(omit) }}"
+    scm_update_on_launch: "{{ item.scm_update_on_launch | default(omit) }}"
+    scm_update_cache_timeout: "{{ item.scm_update_cache_timeout | default(omit) }}"
+    scm_branch: "{{ item.scm_branch | default(omit) }}"
+    scm_clean: "{{ item.scm_clean | default(omit) }}"
+    scm_type: "{{ item.scm_type | default(omit) }}"
+    scm_url: "{{ item.scm_url | default(omit) }}"
+    name: "{{ item.name }}"
+    wait: "{{ item.wait | default(omit) }}"
+    timeout: "{{ item.timeout | default(omit) }}"
+    description: "{{ item.description | default(omit) }}"
+    organization: "{{ item.organization | default(omit) }}"
+    state: "{{ item.state | default('present') }}"

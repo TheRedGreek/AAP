@@ -1,11 +1,18 @@
 - hosts: localhost
+  vars_files:
+    - ../vars/credentials.yml
+    - ../vars/projects.yml
+    - ../vars/job_templates.yml
+    - ../vars/inventories.yml
   tasks:
-  - name: create credential
-    include_role:
-        name: credentials
   - name: create project
     include_role:
         name: projects
-  - name: create job template and inventory
+
+  - name: create credential
+    include_role:
+        name: credentials
+
+  - name: create job template
     include_role:
         name: job_template 

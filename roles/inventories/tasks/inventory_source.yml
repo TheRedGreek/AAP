@@ -1,3 +1,15 @@
+- set_fact:
+    old_projects: "{{ projects | default([]) }}"
+
+- set_fact:
+    projects: "{{ item | extract_dict('project') }}"
+
+- include_role:
+    name: projects
+
+- set_fact:
+    projects:  "{{ old_projects | default([]) }}"
+  
 - name: Create Inventory Source
   ansible.controller.inventory_source:
     controller_oauth_token: "{{ item.controller_oauth_token | default(omit) }}"
@@ -26,11 +38,10 @@
     scm_branch: "{{ item.scm_branch | default(omit) }}"
     source: "{{ item.source | default(omit) }}"
     source_path: "{{ item.source_path | default(omit) }}"
-    source_project: "{{ item.source_project | default(omit) }}"
+    source_project: "{{ item.source_project.name | default(omit) }}"
     source_vars: "{{ item.source_vars | default(omit) }}"
     state: "{{ item.state | default('present') }}"
     timeout: "{{ item.timeout | default(omit) }}"
     update_on_launch: "{{ item.update_on_launch | default(omit) }}"
     update_cache_timeout: "{{ item.update_cache_timeout | default(omit) }}"
     verbosity: "{{ item.verbosity | default(omit) }}"
-  with_items: "{{ inventory_sources | default([]) }}"
