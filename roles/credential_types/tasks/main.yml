@@ -10,7 +10,6 @@
     inputs:                 "{{ item.inputs | default(omit) }}"
     kind:                   "{{ item.kind | default(omit) }}"
     name:                   "{{ item.name }}"
-    #organization:           "{{ item.organization }}"
     request_timeout:        "{{ item.request_timeout | default(omit) }}"
     state:                  "{{ item.state | default('present') }}"
     injectors:              "{{ item.injectors | default(omit) }}"
