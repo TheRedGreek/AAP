@@ -1,5 +1,5 @@
-- name: create credential input source
-  ansible.controller.credential_input_source:
+- name: create credential type
+  ansible.controller.credential_type:
     controller_oauth_token: "{{ item.controller_oauth_token | default(omit) }}"
     controller_username:    "{{ item.controller_username | default(omit) }}"
     controller_password:    "{{ item.controller_password | default(omit) }}"
@@ -7,11 +7,12 @@
     validate_certs:         "{{ item.validate_certs | default(omit) }}"
     controller_config_file: "{{ item.controller_config_file | default(omit) }}"
     description:            "{{ item.description | default(omit) }}"
-    input_field_name:       "{{ item.input_field_name }}"
-    metadata:               "{{ item.metadata | default(omit) }}"
+    inputs:                 "{{ item.inputs | default(omit) }}"
+    kind:                   "{{ item.kind | default(omit) }}"
+    name:                   "{{ item.name }}"
+    #organization:           "{{ item.organization }}"
     request_timeout:        "{{ item.request_timeout | default(omit) }}"
-    sourec_credentail:      "{{ item.sourec_credentail | default(omit) }}"
     state:                  "{{ item.state | default('present') }}"
-    target_credentail:      "{{ item.target_credentail }}"
-  with_items: "{{ credential_input_sources | default([]) }}"
-
+    injectors:              "{{ item.injectors | default(omit) }}"
+    new_name:               "{{ item.new_name | default(omit) }}"
+  with_items:               "{{ credential_types | default([]) }}"
