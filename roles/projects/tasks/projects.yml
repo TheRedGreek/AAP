@@ -1,11 +1,16 @@
-- set_fact:
-    credentials: "{{ item | extract_dict('credential') }}"
+- block:
+  - set_fact:
+      old_credentials: "{{ credentials | default([]) }}"
+  - set_fact:
+      credentials: "{{ item | copy_dict('credential') }}"
+  when: item.credential is defined
 
 - include_role:
     name: credentials
 
 - set_fact:
-    credentials:  "{{ old_credentials | default([]) }}"
+    credentials: "{{ old_credentials | default([]) }}"
+  when: item.credential is defined
 
 - name: Add project
   ansible.controller.project:

@@ -2,11 +2,11 @@
 class FilterModule(object):
     def filters(self):
         return {
-            'extract_dict': self.extract_dict,
-            'extract_list': self.extract_list
+            'copy_dict': self.copy_dict,
+            'copy_list': self.copy_list
         }
     
-    def extract_list(self, item, key):
+    def copy_list(self, item, key):
         """
         Extracts a list of items corresponding to a given key from each dictionary in a list.
         If the input is a string, it returns the string as is.
@@ -30,14 +30,18 @@ class FilterModule(object):
         list_of_dicts = item.get(key)
 
         for dic in list_of_dicts:
+
+            if dic['name'] and len(dic) == 1:
+                continue
+
             org = dic.get('organization')
             if 'organization' not in dic:
                 dic['organization'] = org
-            extracted_items.append(dic)
+                extracted_items.append(dic)
         
         return extracted_items
 
-    def extract_dict(self, dic, key):
+    def copy_dict(self, dic, key):
         """
         Extracts a list of items corresponding to a given key from each dictionary in a list.
         If the input is a string, it returns the string as is.
@@ -49,17 +53,23 @@ class FilterModule(object):
         """
 
         # Proceed with the original logic if the input is a list
+    
+        extracted_items = []
+        org = dic.get('organization')
+
         if not isinstance(dic, dict):
             raise ValueError("Input must be a dictionary")
         
         if not isinstance(key, str):
             raise ValueError("Key must be a string")        
-        
-        extracted_items = []
-        org = dic.get('organization')
 
         if key not in dic:
             raise ValueError(f'Your value: "{key}" not found in dictionary')
+        
+        keys_list = list(dic[key].keys())
+
+        if 'name' in keys_list and len(keys_list) == 1:
+            return extracted_items
 
         if isinstance(dic[key], dict):
             if 'organization' not in dic[key]:

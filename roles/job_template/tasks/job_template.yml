@@ -1,20 +1,31 @@
-- set_fact:
-    old_inventories: "{{ inventories | default([]) }}"
-    old_projects:    "{{ projects    | default([]) }}"
-    old_credentials: "{{ credentials | default([]) }}"
+- block:
+  - set_fact:
+      old_inventories: "{{ inventories | default([]) }}"
+  - set_fact:
+      inventories: "{{ item | copy_dict('inventory')   }}"
+  - fail:
+      msg: "Only one inventory, project or credential can be specified for a job template"
+    when: 
+    - inventories | length > 1
+  when: item.inventory is defined
 
-- set_fact:
-    inventories: "{{ item | extract_dict('inventory')   }}"
-    projects:    "{{ item | extract_dict('project')     }}"
-    credentials: "{{ item | extract_list('credentials') }}"
+- block:
+  - set_fact:
+      old_projects: "{{ projects | default([]) }}"
+  - set_fact:
+      projects: "{{ item | copy_dict('project') }}"
+  - fail:
+      msg: "Only one inventory, project or credential can be specified for a job template"
+    when: 
+    - projects | length > 1
+  when: item.project is defined
 
-- name: Faile if inventory, project or credentail has more than on entry
-  fail:
-    msg: "Only one inventory, project or credential can be specified for a job template"
-  when: 
-  - inventories | length > 1 or 
-    credentials | length > 1 or
-    projects    | length > 1
+- block:
+  - set_fact:
+      old_credentials: "{{ credentials | default([]) }}"
+  - set_fact:
+      credentials: "{{ item | copy_list('credentials') }}"
+  when: item.credentials is defined
 
 - name: include project role
   include_role:
@@ -30,8 +41,15 @@
 
 - set_fact:
     inventories: "{{ old_inventories | default([]) }}"
+  when: item.inventory is defined
+
+- set_fact:
     projects:    "{{ old_projects    | default([]) }}"
+  when: item.project is defined
+
+- set_fact:
     credentials: "{{ old_credentials | default([]) }}"
+  when: item.credentials is defined
 
 - name: Create Job Template
   ansible.controller.job_template: 
@@ -60,7 +78,7 @@
     ask_timeout_on_launch: "{{ item.ask_timeout_on_launch | default(omit) }}"
     become_enabled: "{{ item.become_enabled | default(omit) }}"
     copy_from: "{{ item.copy_from | default(omit) }}"
-    credentials: "{{ (item.credentials | map(attribute='name')) | default(omit) }}"
+    credentials: "{{ (creds | length > 0) | ternary(creds | map(attribute='name'), omit) }}"
     description: "{{ item.description | default(omit) }}"
     diff_mode: "{{ item.diff_mode | default(omit) }}"
     execution_environment: "{{ item.execution_environment | default(omit) }}"
@@ -91,3 +109,5 @@
     verbosity: "{{ item.verbosity | default(omit) }}"
     webhook_service: "{{ item.webhook_service | default(omit) }}"
     webhook_credential: "{{ item.webhook_credential | default(omit) }}"
+  vars:
+    creds: "{{ item.credentials | default([]) }}"

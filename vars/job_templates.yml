@@ -4,12 +4,9 @@ job_templates:
   job_type: "run"
   inventory: 
     name: "test"
+    state: present
   project: 
     name: "Automated VM Template Creation"
+    state: present
   become_enabled: "true"
   playbook: "configure_satellite.yml"
-  execution_environment: ""
-  limit: ""
-  credentials:
-  -  ""
-  organization: ""
