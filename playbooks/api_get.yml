@@ -4,4 +4,6 @@
   - ansible.controller
   tasks:
   - set_fact:
-      controller_settings: "{{ lookup('controller_api', 'project') }}"
+      user: "{{ lookup('env', VMWARE_USER) }}"
+      host: "{{ lookup('env',VMWARE_HOST) }}"
+      
