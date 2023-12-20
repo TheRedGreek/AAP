@@ -1,0 +1,6 @@
+test.yml
+playbooks/debug.yml
+filter_plugin/__pycache__
+filter_plugin/__pycache__/
+bash
+awx
