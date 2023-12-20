@@ -1,7 +1,7 @@
 - hosts: localhost
   gather_facts: false
   collections:
-  - awx.controller
+  - ansible.controller
   tasks:
   - set_fact:
-      controller_settings: "{{ lookup('awx.awx.controller_api', 'project') }}"
+      controller_settings: "{{ lookup('ansible.controller_api', 'project') }}"
