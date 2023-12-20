@@ -2,4 +2,4 @@
   gather_facts: false
   tasks:
   - set_fact:
-    controller_settings: "{{ lookup('awx.awx.controller_api', 'projects') }}"
+      controller_settings: "{{ lookup('awx.awx.controller_api', 'project') }}"
