@@ -4,6 +4,6 @@
   - ansible.controller
   tasks:
   - set_fact:
-      user: "{{ lookup('env', VMWARE_USER) }}"
-      host: "{{ lookup('env',VMWARE_HOST) }}"
+      user: "{{ lookup('env', 'VMWARE_USER') }}"
+      host: "{{ lookup('env', 'VMWARE_HOST') }}"
       
